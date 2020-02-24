@@ -1,17 +1,17 @@
 %% you need to change most of the paths in this block
 
 % addpath(genpath('D:\GitHub\KiloSort2')) % path to kilosort folder
-addpath('D:\GitHub\npy-matlab') % for converting to Phy
+% addpath('D:\GitHub\npy-matlab') % for converting to Phy
 rootZ = 'C:\Users\fermi\Data\20190301'; % the raw data binary file is in this folder
-rootH = 'H:\'; % path to temporary binary file (same size as data, should be on fast SSD)
-pathToYourConfigFile = 'D:\GitHub\KiloSort2\configFiles'; % take from Github folder and put it somewhere else (together with the master_file)
-chanMapFile = 'neuropixPhase3A_kilosortChanMap.mat'
+rootH = 'C:\'; % path to temporary binary file (same size as data, should be on fast SSD)
+pathToYourConfigFile = 'C:\Users\fermi\Documents\GitHub\KS2wrapper\configFiles\'; % take from Github folder and put it somewhere else (together with the master_file)
+chanMapFile = 'C:\Users\fermi\Data\20190301\chanMap.mat';
 
 
 ops.trange = [0 Inf]; % time range to sort
 ops.NchanTOT    = 384; % total number of channels in your recording
 
-run(fullfile(pathToYourConfigFile, 'configFile384.m'))
+ops = StandardConfig_KSW(XMLFilePath);
 ops.fproc       = fullfile(rootH, 'temp_wh.dat'); % proc file on a fast SSD
 ops.chanMap = fullfile(pathToYourConfigFile, chanMapFile);
 
