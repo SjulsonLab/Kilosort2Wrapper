@@ -36,11 +36,8 @@ ops.AUCsplit = 0.9;
 ops.minFR = -Inf; %-Inf works? striatum has pretty low firing rates, that's why I'm using this
 % number of samples to average over (annealed from first to second value) 
 ops.momentum = [20 400]; 
-
 % spatial constant in um for computing residual variance of spike
-ops.sigmaMask = 30; 
-
-ops.fproc       = fullfile(rootH, 'temp_wh.dat'); % proc file on a fast SSD
+ops.fproc       = fullfile(rootH, 'temp_wh.dat'); % proc file on a fast SSDops.sigmaMask = 30; 
 
 % threshold crossings for pre-clustering (in PCA projection space)
 ops.ThPre = 8; 

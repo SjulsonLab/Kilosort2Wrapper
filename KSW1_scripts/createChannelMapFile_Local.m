@@ -1,5 +1,9 @@
 function createChannelMapFile_Local(basepath)
-%  create a channel map file
+%  create a channel map file based on the .xml file. Original script from
+%  kilosort 1 wrapper. Modified to not use channels that user set as 'skip'
+%  in the .xml file.
+%
+%  Modified by Eliezyer de Oliveira, 02/03/2020
 
 if ~exist('basepath','var')
     basepath = cd;
@@ -45,6 +49,17 @@ for a= 1:ngroups
 end
 
 connected   = true(Nchannels, 1);
+%getting channels labeled as a skip to set as disconnected
+%with the code below I assume your anatomical group is the same as your
+%spike group, so make sure it is if you want to skip channels correctly
+aux_skip      = cell2mat({par.AnatGrps.Skip});
+aux_ch        = cell2mat({par.AnatGrps.Channels});
+disconnect_ch = aux_ch(logical(aux_skip))+1;
+
+connected(disconnect_ch) = false;
+
+
+
 chanMap     = 1:Nchannels;
 chanMap0ind = chanMap - 1;
 [~,I] =  sort(horzcat(tgroups{:}));
