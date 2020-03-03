@@ -1,5 +1,5 @@
 # KS2wrapper
-This wrapper is a set of functions to collect neuroscope .xml information to use kilosort 2 in the binary files (.dat). If all the information in the .xml file is correct, the user only needs to run the function KS2Wrapper to sort the files.
+This wrapper is a set of functions to collect neuroscope .xml information to use kilosort 2 in the binary files (.dat). If all the information in the .xml file is correct, the user only needs to run the function KS2Wrapper to spike sort using kilosort 2.
 
 ## Dependencies 
 - [npy-matlab](https://github.com/kwikteam/npy-matlab)
