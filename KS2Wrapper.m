@@ -65,9 +65,24 @@ rez = set_cutoff(rez);
 
 fprintf('found %d good units \n', sum(rez.good>0))
 
-% write to Phy
+%% write to Phy
 fprintf('Saving results to Phy  \n')
 rezToPhy(rez, ks2_folder);
+
+%correcting params.py file to access the .dat file
+fid = fopen(fullfile(ks2_folder,'params.py'), 'w');
+[~, fname, ext] = fileparts(rez.ops.fbinary);
+fprintf(fid,['dat_path = ''../',fname ext '''\n']);
+fprintf(fid,'n_channels_dat = %i\n',rez.ops.NchanTOT);
+fprintf(fid,'dtype = ''int16''\n');
+fprintf(fid,'offset = 0\n');
+if mod(rez.ops.fs,1)
+    fprintf(fid,'sample_rate = %i\n',rez.ops.fs);
+else
+    fprintf(fid,'sample_rate = %i.\n',rez.ops.fs);
+end
+fprintf(fid,'hp_filtered = False');
+fclose(fid);
 
 %% saving results to matlab
 
