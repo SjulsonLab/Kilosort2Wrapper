@@ -17,6 +17,9 @@ else
     error('the .xml file is missing')
 end
 
+%range to spike sort
+ops.trange = [0 Inf];
+
 ops.NchanTOT  = par.nChannels; % total number of channels in your recording
 %channel map file location
 ops.chanMap   = fullfile(basepath,'chanMap.mat');

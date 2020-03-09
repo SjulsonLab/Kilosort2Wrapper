@@ -1,4 +1,4 @@
-function KS2Wrapper(basepath)
+ function KS2Wrapper(basepath)
 %Kilosort 2 wrapper for neuroscope users. It extract informations from your
 %.xml to perform spike sorting.
 %
@@ -9,7 +9,7 @@ function KS2Wrapper(basepath)
 neurosuite_files = 0;
 
 %% you need to change most of the paths in this block
-if narging<1
+if nargin<1
     basepath = pwd;
 end
 

@@ -66,7 +66,7 @@ else
 end
 
 %loading phy files
-cd(KSdir);
+% cd(KSdir);
 
 if ~exist('rez','var')
     load(fullfile(basepath,KSdir,'rez2.mat'))
@@ -82,8 +82,12 @@ end
 % connected    = ones(Nchan, 1);
 % xcoords      = ones(Nchan, 1);
 % ycoords      = (1:Nchan)';
-
-par = LoadParameters(fullfile([basepath],[basename '.xml'])); %this is load differently the xml file than before (EFO 3/3/2019)
+d   = dir('*.xml');
+if ~isempty(d)
+    par = LoadParameters(fullfile(basepath,d(1).name));
+else
+    error('the .xml file is missing')
+end
 
 totalch = par.nChannels;
 sbefore = 16;%samples before/after for spike extraction
@@ -108,8 +112,8 @@ else
 end
 
 %% identify timestamps that are from good clusters
-clusters = readNPY('spike_clusters.npy');
-S = tdfread('cluster_group.tsv');
+clusters = readNPY(fullfile(basepath,KSdir,'spike_clusters.npy'));
+S = tdfread(fullfile(basepath,KSdir,'cluster_group.tsv'));
 group = S.group;
 cluster_id = S.cluster_id;
 
@@ -121,17 +125,17 @@ ExtClus = cluster_id(GClusters);
 auxiliarC = find(ismember(clusters,ExtClus));
 %% getting spike information
 
-spktimes = uint64(readNPY('spike_times.npy'));
+spktimes = uint64(readNPY(fullfile(basepath,KSdir,'spike_times.npy')));
 spktimes = spktimes(auxiliarC);
-clu = uint32(readNPY('spike_clusters.npy'));
+clu = uint32(readNPY(fullfile(basepath,KSdir,'spike_clusters.npy')));
 clu = clu(auxiliarC);
-pcFeatures = readNPY('pc_features.npy');
+pcFeatures = readNPY(fullfile(basepath,KSdir,'pc_features.npy'));
 pcFeatures = pcFeatures(auxiliarC,:,:);
 % pcFeatureInds = uint32(readNPY('pc_feature_ind.npy'))';
 % templates = readNPY('templates.npy');
 if kilosort2 %extracting shank information if it's kilosort2 output
-    cluster_info = tdfread('cluster_info.tsv');
-    clu_channels = cluster_info.channel;
+    cluster_info = tdfread(fullfile(basepath,KSdir,'cluster_info.tsv'));
+    clu_channels = cluster_info.ch;
     shanks = zeros(size(clu_channels));
     
     for s = 1:length(par.spikeGroups.groups)
@@ -141,8 +145,8 @@ if kilosort2 %extracting shank information if it's kilosort2 output
     
     cluShank = cluster_info.id; %this is just the ID of the cluster, bad naming that needs change.
 else
-    shanks = readNPY('shanks.npy');
-    cluShank = readNPY('cluster_ids.npy'); %just the ids of each clsuter
+    shanks = readNPY(fullfile(basepath,KSdir,'shanks.npy'));
+    cluShank = readNPY(fullfile(basepath,KSdir,'cluster_ids.npy')); %just the ids of each clsuter
 end
 
 cd(basepath)
